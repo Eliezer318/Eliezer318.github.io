@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">
+  <title>Sketch of the approach: state and action embeddings feed a shallow network that predicts the next state</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#1f2937"/>
+    </marker>
+  </defs>
+  <rect width="640" height="300" fill="#ffffff"/>
+
+  <!-- inputs -->
+  <rect x="16" y="54" width="130" height="74" rx="10" fill="#f3f4f6" stroke="#c4c7cc"/>
+  <text x="29" y="82" font-size="17" font-weight="700" fill="#111827">State <tspan font-style="italic" font-family="Georgia, serif" font-weight="400">s</tspan></text>
+  <text x="29" y="108" font-size="13" fill="#374151">"A on B, C clear"</text>
+  <rect x="16" y="160" width="130" height="74" rx="10" fill="#f3f4f6" stroke="#c4c7cc"/>
+  <text x="29" y="188" font-size="17" font-weight="700" fill="#111827">Action <tspan font-style="italic" font-family="Georgia, serif" font-weight="400">a</tspan></text>
+  <text x="29" y="214" font-size="13" font-family="Menlo, Consolas, monospace" fill="#374151">pick-up(C)</text>
+
+  <!-- embedding -->
+  <path d="M148 91 L186 127" stroke="#1f2937" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <path d="M148 197 L186 163" stroke="#1f2937" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <rect x="190" y="98" width="100" height="94" rx="12" fill="#e7e8ff" stroke="#8b8ff0" stroke-width="2"/>
+  <text x="240" y="139" font-size="15" text-anchor="middle" fill="#1f2937">LLM</text>
+  <text x="240" y="159" font-size="15" text-anchor="middle" fill="#1f2937">embedding</text>
+
+  <!-- shallow network -->
+  <path d="M292 145 L322 145" stroke="#1f2937" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <g stroke="#e8b27a" stroke-width="1.2">
+    <path d="M346 105L394 90M346 105L394 125M346 105L394 160M346 105L394 195M346 145L394 90M346 145L394 125M346 145L394 160M346 145L394 195M346 185L394 90M346 185L394 125M346 185L394 160M346 185L394 195"/>
+    <path d="M394 90L442 125M394 90L442 165M394 125L442 125M394 125L442 165M394 160L442 125M394 160L442 165M394 195L442 125M394 195L442 165"/>
+  </g>
+  <g fill="#ffffff" stroke="#d97706" stroke-width="2.4">
+    <circle cx="346" cy="105" r="9"/><circle cx="346" cy="145" r="9"/><circle cx="346" cy="185" r="9"/>
+    <circle cx="394" cy="90" r="9"/><circle cx="394" cy="125" r="9"/><circle cx="394" cy="160" r="9"/><circle cx="394" cy="195" r="9"/>
+    <circle cx="442" cy="125" r="9"/><circle cx="442" cy="165" r="9"/>
+  </g>
+  <text x="394" y="234" font-size="14" text-anchor="middle" fill="#b45309">shallow network</text>
+
+  <!-- next state -->
+  <path d="M454 145 L474 145" stroke="#1f2937" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <rect x="478" y="104" width="148" height="82" rx="10" fill="#eaf7ea" stroke="#2e7d32" stroke-width="2"/>
+  <text x="491" y="134" font-size="17" font-weight="700" fill="#14532d">Next state</text>
+  <text x="491" y="162" font-size="13" fill="#166534">"holding C, A on B"</text>
+
+  <!-- caption -->
+  <text x="320" y="278" font-size="14" font-style="italic" text-anchor="middle" fill="#4b5563">planning in latent space instead of frequent LLM calls</text>
+</svg>
