@@ -179,10 +179,10 @@ html.decoding .tagline:not(.ready) { visibility: hidden; }
 /* affiliation logos: a small column under the portrait */
 .side { display: grid; gap: 16px; align-content: start; justify-items: center; }
 .logos { display: grid; gap: 6px; width: 100%; }
-.logos a { display: grid; place-items: center; height: 32px; padding: 4px 10px; background: #ffffff; border: 1px solid var(--line); border-radius: 7px; }
+.logos a { display: grid; place-items: center; padding: 3px 5px; background: #ffffff; border: 1px solid var(--line); border-radius: 7px; }
 .logos a:hover { border-color: var(--faint); }
-.logos img { height: 19px; width: auto; max-width: 100%; display: block; }
-.logos .is-insight img { height: 16px; }
+.logos img { height: 38px; width: auto; max-width: 100%; display: block; object-fit: contain; }
+.logos .is-insight img { height: auto; width: 100%; }
 
 /* sections */
 h2 { font: 600 clamp(28px, 3.6vw, 36px)/1.2 var(--font-display); color: var(--ink); margin: 76px 0 24px; letter-spacing: -0.01em; }
@@ -279,8 +279,8 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
   .hero { grid-template-columns: minmax(0, 1fr); gap: 22px; padding-top: 32px; }
   .portrait { width: 132px; height: 132px; }
   .side { grid-template-columns: 132px minmax(0, 1fr); align-items: center; justify-items: start; }
-  .logos { max-width: 190px; }
-  .logos a { height: 30px; }
+  .logos { max-width: 200px; }
+  .logos img { height: 32px; }
   .bio { font-size: 16px; }
   .trace { font-size: 12px; }
   h2 { margin-top: 60px; }
