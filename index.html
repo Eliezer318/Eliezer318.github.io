@@ -190,6 +190,13 @@ h2 { font: 600 clamp(28px, 3.6vw, 36px)/1.2 var(--font-display); color: var(--in
 .section-head a { font-size: 15px; color: var(--faint); }
 .lead { font-size: 18px; max-width: 760px; margin: 0 0 24px; color: var(--ink); }
 
+/* featured animation */
+.featured { margin: 56px 0 0; }
+.feature { display: block; max-width: 824px; background: var(--frame); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.feature img { width: 100%; height: auto; display: block; }
+.feature-cap { margin: 10px 0 0; max-width: 824px; font-size: 15px; color: var(--faint); }
+.feature-cap b { color: var(--ink); font-weight: 600; }
+
 /* highlights */
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 .card { color: inherit; text-decoration: none; display: block; }
@@ -267,9 +274,9 @@ summary:hover { color: var(--ink); }
 .timeline .when { font-size: 14.5px; color: var(--faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 /* contact */
-.contact { margin: 80px 0 0; padding: 40px 44px; background: var(--contact); color: var(--contact-body); border-radius: 18px; border: 1px solid var(--contact-line); }
-.contact h2 { margin: 0; color: var(--contact-ink); }
-.contact p { margin: 12px 0 0; font-size: 17px; max-width: 560px; }
+.contact { margin: 76px 0 0; padding: 28px 32px; background: var(--soft); color: var(--body); border-radius: 14px; }
+.contact h2 { margin: 0; color: var(--ink); font-size: clamp(24px, 3vw, 28px); }
+.contact p { margin: 10px 0 0; font-size: 16.5px; max-width: 640px; }
 .contact .pills a { background: transparent; color: var(--contact-ink); border-color: var(--contact-line); }
 .contact .pills a:hover { border-color: var(--contact-ink); }
 .contact .pills a.primary { background: var(--contact-ink); color: #141414; border-color: var(--contact-ink); }
@@ -327,7 +334,6 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
     <a class="brand" href="/">Eliezer Shlomi</a>
     <div class="end">
       <nav aria-label="Sections" id="site-nav">
-        <a href="#research">Research</a>
         <a href="#publications">Publications</a>
         <a href="#news">News</a>
         <a href="#experience">Experience</a>
@@ -367,62 +373,14 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
         <li><a href="https://huggingface.co/EliezerS" target="_blank" rel="me noopener"><svg class="ico ico-huggingface" aria-hidden="true"><use href="#i-huggingface"/></svg>Hugging Face</a></li>
         <li><a href="https://orcid.org/0009-0004-6587-9594" target="_blank" rel="me noopener"><svg class="ico ico-orcid" aria-hidden="true"><use href="#i-orcid"/></svg>ORCID</a></li>
       </ul>
-      <p class="callout">I'm always happy to talk about efficient inference, diffusion language models, planning and research collaborations.</p>
     </div>
   </section>
 
-  <section id="highlights" aria-labelledby="highlights-h">
-    <h2 id="highlights-h">Highlights</h2>
-    <div class="cards">
-      <a class="card" href="https://eliezershlomi.com/SPOT-dLLM/">
-        <div class="media">
-          <img src="assets/spot-replay.gif" width="824" height="396" alt="Recorded replay of four decoders on one GSM8K prompt: SPOT finishes in 68 model passes, against 275 for standard decoding.">
-          <span class="badge badge-on">arXiv 2026</span>
-        </div>
-        <h3>SPOT</h3>
-        <p>Predicts the order in which a diffusion language model commits tokens: up to 6.8× fewer model passes and 3.2× the throughput, with the exact output distribution.</p>
-      </a>
-      <a class="card" href="https://embedplan.github.io/" target="_blank" rel="noopener">
-        <div class="media">
-          <img src="assets/embedplan-latent.webp" width="646" height="288" loading="lazy" alt="EmbedPlan's latent space: a learned transition moves the state embedding to a predicted next state, which snaps to the nearest real state.">
-          <span class="badge badge-on">arXiv 2026</span>
-        </div>
-        <h3>EmbedPlan</h3>
-        <p>A transition model on frozen LLM embeddings predicts the next planning state in about 0.17 ms, instead of about 1.9 s for an LLM call.</p>
-      </a>
-      <a class="card" href="https://openreview.net/forum?id=SPRYlWKaPj" target="_blank" rel="noopener">
-        <div class="media">
-          <img src="assets/tfp-sketch.svg" width="640" height="300" loading="lazy" alt="Sketch: a state and an action are embedded by an LLM, and a shallow network predicts the next state.">
-          <span class="badge badge-on">LM4Plan (AAAI-2025)</span>
-        </div>
-        <h3>Transition function prediction</h3>
-        <p>A shallow network over state and action embeddings serves as the transition function, so planning runs in latent space instead of through frequent LLM calls.</p>
-      </a>
-    </div>
-  </section>
-
-  <section id="research" aria-labelledby="research-h">
-    <h2 id="research-h">Research</h2>
-    <p class="lead">Large language models are expensive to run: they generate step by step, and planners built on them call the model at every step. My work cuts the number of calls to the large model.</p>
-    <div class="pillars">
-      <div class="pillar">
-        <p class="kicker">Inference</p>
-        <h3>Fast decoding for diffusion language models</h3>
-        <p>A tiny drafter predicts where the model commits next, and the model verifies several future steps in one pass, with its exact output distribution.</p>
-        <ul class="tags">
-          <li><a href="#spot"><b>SPOT</b><span>arXiv '26</span></a></li>
-        </ul>
-      </div>
-      <div class="pillar">
-        <p class="kicker">Planning</p>
-        <h3>Planning in embedding space</h3>
-        <p>A small network learns the transition function on top of frozen LLM embeddings, so a planner can search without calling an LLM at every step.</p>
-        <ul class="tags">
-          <li><a href="#embedplan"><b>EmbedPlan</b><span>arXiv '26</span></a></li>
-          <li><a href="#tfp"><b>Transition function prediction</b><span>LM4Plan (AAAI-2025)</span></a></li>
-        </ul>
-      </div>
-    </div>
+  <section class="featured" aria-label="SPOT in action">
+    <a class="feature" href="https://eliezershlomi.com/SPOT-dLLM/">
+      <img src="assets/spot-replay.gif" width="824" height="396" alt="Recorded replay of four decoders on one GSM8K prompt: SPOT finishes in 68 model passes, against 275 for standard decoding.">
+    </a>
+    <p class="feature-cap"><b>SPOT in action.</b> A recorded replay of four decoders on one GSM8K prompt: SPOT finishes in 68 model passes, against 275 for standard decoding. <a href="https://eliezershlomi.com/SPOT-dLLM/">Project page</a></p>
   </section>
 
   <section id="news" aria-labelledby="news-h">
@@ -546,8 +504,8 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
       </li>
       <li>
         <span class="mark"><img src="assets/logos/technion.svg" width="449" height="202" alt=""></span>
-        <div><h3><a href="https://www.technion.ac.il/en/" target="_blank" rel="noopener">Technion – Israel Institute of Technology</a></h3><p>MSc, Data and Decision Sciences, advised by Prof. Chaim Baskin</p></div>
-        <span class="when">2023 to 2026</span>
+        <div><h3><a href="https://www.technion.ac.il/en/" target="_blank" rel="noopener">Technion – Israel Institute of Technology</a></h3><p>MSc, Data and Decision Sciences, advised by Prof. Chaim Baskin (2023 to 2026) · Research assistant, part-time (2021) · BSc, Data Science and Engineering (2018 to 2022)</p></div>
+        <span class="when">2018 to 2026</span>
       </li>
       <li>
         <span class="mark mono" aria-hidden="true">WIS</span>
@@ -559,44 +517,18 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
         <div><h3><a href="https://www.intel.com/" target="_blank" rel="noopener">Intel</a></h3><p>Data analyst (part-time)</p></div>
         <span class="when">2021 to 2022</span>
       </li>
-      <li>
-        <span class="mark"><img src="assets/logos/technion.svg" width="449" height="202" alt=""></span>
-        <div><h3><a href="https://www.technion.ac.il/en/" target="_blank" rel="noopener">Technion – Israel Institute of Technology</a></h3><p>Research assistant (part-time)</p></div>
-        <span class="when">2021</span>
-      </li>
-      <li>
-        <span class="mark"><img src="assets/logos/technion.svg" width="449" height="202" alt=""></span>
-        <div><h3><a href="https://www.technion.ac.il/en/" target="_blank" rel="noopener">Technion – Israel Institute of Technology</a></h3><p>BSc, Data Science and Engineering</p></div>
-        <span class="when">2018 to 2022</span>
-      </li>
     </ul>
   </section>
 
   <section class="contact" id="contact" aria-labelledby="contact-h">
     <h2 id="contact-h">Get in touch</h2>
-    <p>I'm always happy to talk about efficient inference, diffusion language models, planning and research collaborations.</p>
-    <ul class="pills">
-      <li><a class="primary" href="mailto:eliezershlomi0x@gmail.com"><svg class="ico ico-mail" aria-hidden="true"><use href="#i-mail"/></svg>Email</a></li>
-      <li><a href="https://www.linkedin.com/in/eliezer-shlomi-3a8b19172/" target="_blank" rel="noopener"><svg class="ico ico-linkedin" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a></li>
-      <li><a href="https://scholar.google.com/citations?user=eCVx6zsAAAAJ" target="_blank" rel="noopener"><svg class="ico ico-googlescholar" aria-hidden="true"><use href="#i-googlescholar"/></svg>Google Scholar</a></li>
-      <li><a href="https://github.com/Eliezer318" target="_blank" rel="noopener"><svg class="ico ico-github" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
-      <li><a href="https://huggingface.co/EliezerS" target="_blank" rel="noopener"><svg class="ico ico-huggingface" aria-hidden="true"><use href="#i-huggingface"/></svg>Hugging Face</a></li>
-    </ul>
-    <p class="addr"><a href="mailto:eliezershlomi0x@gmail.com">eliezershlomi0x@gmail.com</a></p>
+    <p>I'm always happy to talk about efficient inference, diffusion language models, planning and research collaborations. Email me at <a href="mailto:eliezershlomi0x@gmail.com">eliezershlomi0x@gmail.com</a>.</p>
   </section>
 </main>
 
 <footer>
   <div class="wrap"><div class="bar">
     <p>Eliezer Shlomi. Last updated November 2026.</p>
-    <ul>
-      <li><a href="https://scholar.google.com/citations?user=eCVx6zsAAAAJ" target="_blank" rel="noopener">Google Scholar</a></li>
-      <li><a href="https://github.com/Eliezer318" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/eliezer-shlomi-3a8b19172/" target="_blank" rel="noopener">LinkedIn</a></li>
-      <li><a href="https://huggingface.co/EliezerS" target="_blank" rel="noopener">Hugging Face</a></li>
-      <li><a href="https://orcid.org/0009-0004-6587-9594" target="_blank" rel="noopener">ORCID</a></li>
-      <li><a href="https://eliezershlomi.com/SPOT-dLLM/">SPOT project page</a></li>
-    </ul>
   </div></div>
 </footer>
 <script>
