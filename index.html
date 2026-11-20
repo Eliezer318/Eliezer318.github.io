@@ -234,6 +234,15 @@ h2 { font: 600 clamp(28px, 3.6vw, 36px)/1.2 var(--font-display); color: var(--in
 .pub h3 a:hover { color: var(--accent); }
 .authors { margin: 6px 0 0; font-size: 15px; color: var(--faint); }
 .authors b { color: var(--ink); font-weight: 600; }
+.authors a { color: inherit; text-decoration-color: var(--line); }
+.authors a:hover { color: var(--accent); text-decoration-color: currentColor; }
+.au[hidden] { display: none; }
+.more-au { font: inherit; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.more-au:hover { color: var(--accent); }
+details.abs p { margin: 8px 0 0; font-size: 14.5px; line-height: 1.6; max-width: 680px; }
+.menu-btn { display: none; place-items: center; width: 34px; height: 34px; padding: 0; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--faint); cursor: pointer; }
+.menu-btn:hover { color: var(--ink); border-color: var(--faint); }
+.menu-btn svg { width: 17px; height: 17px; display: block; }
 .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
 .summary { margin: 10px 0 0; font-size: 15px; max-width: 640px; }
 .links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 10px 0 0; font-size: 15px; }
@@ -275,7 +284,13 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
   .cards { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 @media (max-width: 720px) {
-  .topbar nav { display: none; }
+  .topbar .bar { position: relative; }
+  .topbar .end { gap: 8px; }
+  .menu-btn { display: inline-grid; }
+  .topbar nav { display: none; position: absolute; top: calc(100% - 6px); right: 0; z-index: 20; flex-direction: column; gap: 2px; min-width: 180px; padding: 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
+  .topbar.open nav { display: flex; }
+  .topbar nav a { padding: 8px 10px; border-radius: 8px; color: var(--ink); font-size: 16px; }
+  .topbar nav a:hover { background: var(--soft); }
   .hero { grid-template-columns: minmax(0, 1fr); gap: 22px; padding-top: 32px; }
   .portrait { width: 132px; height: 132px; }
   .side { grid-template-columns: 132px minmax(0, 1fr); align-items: center; justify-items: start; }
@@ -311,13 +326,16 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
   <div class="wrap"><div class="bar">
     <a class="brand" href="/">Eliezer Shlomi</a>
     <div class="end">
-      <nav aria-label="Sections">
+      <nav aria-label="Sections" id="site-nav">
         <a href="#research">Research</a>
         <a href="#publications">Publications</a>
         <a href="#news">News</a>
         <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
       </nav>
+      <button class="menu-btn" type="button" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
       <button class="theme-btn" type="button" id="theme-btn" aria-label="Switch between light and dark mode" title="Light or dark mode">
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
@@ -340,6 +358,7 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
       <h1>Eliezer Shlomi</h1>
       <p class="tagline">I make language models faster, both when they write and when they plan.</p>
       <p class="bio">I'm a PhD student at the <a href="https://insight.bgu.ac.il/" target="_blank" rel="noopener">INSIGHT Lab</a>, Ben-Gurion University of the Negev, advised by <a href="https://chaimbaskin.bgu.ac.il/" target="_blank" rel="noopener">Prof. Chaim Baskin</a>. I did my BSc and MSc at the <a href="https://www.technion.ac.il/en/" target="_blank" rel="noopener">Technion</a>. My research is on fast inference for language models, most recently speculative decoding for diffusion language models, and on planning with language models through learned transitions in embedding space.</p>
+      <p class="bio">Outside research, I enjoy board games, the gym, ping pong and hanging out with friends.</p>
       <ul class="pills">
         <li><a class="primary" href="mailto:eliezershlomi0x@gmail.com"><svg class="ico ico-mail" aria-hidden="true"><use href="#i-mail"/></svg>Email</a></li>
         <li><a href="https://scholar.google.com/citations?user=eCVx6zsAAAAJ" target="_blank" rel="me noopener"><svg class="ico ico-googlescholar" aria-hidden="true"><use href="#i-googlescholar"/></svg>Google Scholar</a></li>
@@ -425,15 +444,20 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
       <a class="thumb" href="https://eliezershlomi.com/SPOT-dLLM/" tabindex="-1" aria-hidden="true"><img src="assets/spot-method.webp" width="960" height="381" loading="lazy" alt=""></a>
       <div>
         <h3><a href="https://eliezershlomi.com/SPOT-dLLM/">On the SPOT: Enhancing Speculative Decoding for Diffusion Language Models via Commit-Order Prediction</a></h3>
-        <p class="authors"><b>Eliezer Shlomi</b>*, Eliron Rahimi*, Avi Mendelson, Chaim Baskin</p>
+        <p class="authors" data-fold><span class="au"><b>Eliezer Shlomi</b>*, </span><span class="au"><a href="https://scholar.google.co.il/citations?user=7OSo8DkAAAAJ&amp;hl=en" target="_blank" rel="noopener">Eliron Rahimi</a>*, </span><span class="au"><a href="https://www.cs.technion.ac.il/~mendlson/" target="_blank" rel="noopener">Avi Mendelson</a>, </span><span class="au"><a href="https://chaimbaskin.bgu.ac.il/" target="_blank" rel="noopener">Chaim Baskin</a></span></p>
         <div class="badges"><span class="badge">arXiv 2026</span><span class="badge outline">Co-first author</span></div>
         <p class="summary">SPOT predicts where a diffusion language model commits next, and the model verifies a whole tree of drafts in one pass: up to 6.8× fewer model passes and 3.2× the throughput of standard decoding, exact at any temperature.</p>
         <p class="links">
           <a href="https://arxiv.org/abs/2610.22543" target="_blank" rel="noopener">arXiv</a>
+          <a href="https://arxiv.org/pdf/2610.22543" target="_blank" rel="noopener">PDF</a>
           <a href="https://eliezershlomi.com/SPOT-dLLM/">Project page</a>
           <a href="https://github.com/Eliezer318/SPOT-dLLM" target="_blank" rel="noopener">Code</a>
           <a href="https://huggingface.co/EliezerS/SPOT-dLLM" target="_blank" rel="noopener">Drafters</a>
         </p>
+        <details class="abs">
+          <summary>Abstract</summary>
+          <p>Diffusion language models (DLMs) promise parallel text generation, but in practice face an unresolved speed-quality trade-off. Exact decoding fills in only one masked position per model pass, while faster multi-token decoding schemes are lossy. Speculative decoding is the standard lossless acceleration for autoregressive models. However, it does not transfer directly to DLMs, which must choose both what to generate and where. We show that this order is the missing piece: the model's own predictions from the previous pass already give the right token at over 90% of positions, but not which position comes next. We introduce Speculating Positions Order Trajectory (SPOT), a 0.62M-parameter model that reads only the target's output distributions, predicts this order and proposes a tree of candidate continuations, which the target verifies in a single pass by state equality. Coupled-noise match, which shares Gumbel noise between drafter and target, keeps this verification exact at any temperature. This approach also inspired us to introduce SPOT-Sets for dynamic threshold decoding, where a pass commits several positions: SPOT-Sets drafts whole commit sets together with their tokens. Our comprehensive experiments show that SPOT cuts target passes by up to 6.8× and reaches up to 3.4× the throughput of standard decoding on SDAR-8B, matching or beating the calibrated and training-free drafting baselines in every task and budget at T = 0 and T = 1. In addition, we show that SPOT's learned drafter transfers across models, demonstrating successful transfer across six different DLMs; with a light calibration, the SPOT-Sets drafter transfers as well. On top of dynamic threshold decoding, SPOT-Sets improves the throughput of SDAR-8B by 59% on average over the threshold decoder alone.</p>
+        </details>
         <details>
           <summary>BibTeX</summary>
           <div class="bib"><pre>@article{shlomi2026spot,
@@ -455,14 +479,19 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
       <a class="thumb" href="https://embedplan.github.io/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/embedplan-latent.webp" width="646" height="288" loading="lazy" alt=""></a>
       <div>
         <h3><a href="https://embedplan.github.io/" target="_blank" rel="noopener">Textual Planning with Explicit Latent Transitions</a></h3>
-        <p class="authors"><b>Eliezer Shlomi</b>*, Ido Levy*, Eilam Shapira, Michael Katz, Guy Uziel, Segev Shlomov, Nir Mashkif, Roi Reichart, Sarah Keren</p>
+        <p class="authors" data-fold><span class="au"><b>Eliezer Shlomi</b>*, </span><span class="au"><a href="https://scholar.google.com/citations?user=Ok_7M80AAAAJ" target="_blank" rel="noopener">Ido Levy</a>*, </span><span class="au"><a href="https://eilamshapira.com/" target="_blank" rel="noopener">Eilam Shapira</a>, </span><span class="au"><a href="https://ctpelok77.github.io/" target="_blank" rel="noopener">Michael Katz</a>, </span><span class="au">Guy Uziel, </span><span class="au">Segev Shlomov, </span><span class="au">Nir Mashkif, </span><span class="au"><a href="https://roireichart.com/" target="_blank" rel="noopener">Roi Reichart</a>, </span><span class="au"><a href="https://sarahk.cs.technion.ac.il/" target="_blank" rel="noopener">Sarah Keren</a></span></p>
         <div class="badges"><span class="badge">arXiv 2026</span><span class="badge outline">Co-first author</span></div>
         <p class="summary">EmbedPlan learns a transition model on top of frozen LLM text embeddings. It predicts the next state in about 0.17 ms instead of about 1.9 s for an LLM call, and ranks the true next state in the top 5 of 128 candidates 99.7% of the time on held-out transitions of seen problems.</p>
         <p class="links">
           <a href="https://arxiv.org/abs/2602.04557" target="_blank" rel="noopener">arXiv</a>
+          <a href="https://arxiv.org/pdf/2602.04557" target="_blank" rel="noopener">PDF</a>
           <a href="https://embedplan.github.io/" target="_blank" rel="noopener">Project page</a>
           <a href="https://github.com/EmbedPlan/EmbedPlan" target="_blank" rel="noopener">Code</a>
         </p>
+        <details class="abs">
+          <summary>Abstract</summary>
+          <p>Planning requires a transition model that predicts how each action changes the current state. When a large language model (LLM) plays this role, every next state is generated token by token, which makes searching over many possible futures slow and expensive. Existing alternatives either still query an LLM at every step or require a symbolic model of the domain. We propose EmbedPlan, a transition model built on frozen text embeddings: it embeds natural language descriptions of the state and the action with a frozen LLM, predicts the embedding of the next state with a lightweight learned network, and returns the closest real state. Because this network can be trained on top of any encoder, EmbedPlan also provides a controlled way to compare text representations for learning transitions. We evaluate it on 9 classical planning domains, under six settings that hold out progressively more of the data, from transitions to entire domains, and against baselines ranging from predicting no change to learning symbolic action rules. On planning problems seen during training, EmbedPlan almost always ranks the true next state among its top five guesses, still does so for most queries even when every observed state is a candidate, and retains 92-99% of its single-step accuracy when predicting several steps ahead from its own outputs. Given the same candidate states as GPT-5.4, it picks the true next state more often while taking about 0.17 ms per transition with cached embeddings. Accuracy is lower on unseen problems and near chance on unseen domains, and the controlled comparison traces this limit to the state representation rather than to the learned transition.</p>
+        </details>
         <details>
           <summary>BibTeX</summary>
           <div class="bib"><pre>@article{shlomi2026textual,
@@ -480,11 +509,12 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
       <a class="thumb" href="https://openreview.net/forum?id=SPRYlWKaPj" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/tfp-sketch.svg" width="640" height="300" loading="lazy" alt=""></a>
       <div>
         <h3><a href="https://openreview.net/forum?id=SPRYlWKaPj" target="_blank" rel="noopener">Transition Function Prediction in AI Planning Using LLMs</a></h3>
-        <p class="authors"><b>Eliezer Shlomi</b>, Guy Azran, Eilam Shapira, Omer Nahum, Guy Uziel, Michael Katz, Ateret Anaby Tavor, Roi Reichart, Sarah Keren</p>
+        <p class="authors" data-fold><span class="au"><b>Eliezer Shlomi</b>, </span><span class="au">Guy Azran, </span><span class="au"><a href="https://eilamshapira.com/" target="_blank" rel="noopener">Eilam Shapira</a>, </span><span class="au">Omer Nahum, </span><span class="au">Guy Uziel, </span><span class="au"><a href="https://ctpelok77.github.io/" target="_blank" rel="noopener">Michael Katz</a>, </span><span class="au">Ateret Anaby Tavor, </span><span class="au"><a href="https://roireichart.com/" target="_blank" rel="noopener">Roi Reichart</a>, </span><span class="au"><a href="https://sarahk.cs.technion.ac.il/" target="_blank" rel="noopener">Sarah Keren</a></span></p>
         <div class="badges"><span class="badge">LM4Plan (AAAI-2025)</span></div>
         <p class="summary">States and actions are embedded in a structured feature space and a shallow neural network serves as the transition function, so planning runs in the latent space without frequent LLM calls.</p>
         <p class="links">
           <a href="https://openreview.net/forum?id=SPRYlWKaPj" target="_blank" rel="noopener">OpenReview</a>
+          <a href="https://openreview.net/pdf?id=SPRYlWKaPj" target="_blank" rel="noopener">PDF</a>
         </p>
         <details>
           <summary>BibTeX</summary>
@@ -626,6 +656,28 @@ footer ul { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; mar
   });
   label();
 })();
+(function () {
+  // phone menu: the section links fold into a button on small screens
+  var bar = document.querySelector(".topbar"), btn = document.getElementById("menu-btn");
+  if (!bar || !btn) return;
+  function set(open) { bar.classList.toggle("open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  btn.addEventListener("click", function (e) { e.stopPropagation(); set(!bar.classList.contains("open")); });
+  document.querySelectorAll("#site-nav a").forEach(function (a) { a.addEventListener("click", function () { set(false); }); });
+  document.addEventListener("click", function (e) { if (!bar.contains(e.target)) set(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+})();
+document.querySelectorAll(".authors[data-fold]").forEach(function (p) {
+  // long author lists: first three, "+N more authors", last author (the full list is in the HTML)
+  var au = p.querySelectorAll(".au");
+  if (au.length <= 5) return;
+  var hide = Array.prototype.slice.call(au, 3, au.length - 1);
+  hide.forEach(function (s) { s.hidden = true; });
+  var wrap = document.createElement("span"), b = document.createElement("button");
+  b.type = "button"; b.className = "more-au"; b.textContent = "+" + hide.length + " more authors";
+  wrap.appendChild(b); wrap.appendChild(document.createTextNode(", "));
+  au[2].parentNode.insertBefore(wrap, au[3]);
+  b.addEventListener("click", function () { hide.forEach(function (s) { s.hidden = false; }); wrap.remove(); });
+});
 document.querySelectorAll("[data-copy]").forEach(function (b) {
   b.addEventListener("click", function () {
     var text = b.parentNode.querySelector("pre").textContent;
